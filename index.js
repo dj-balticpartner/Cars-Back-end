@@ -11,13 +11,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 //Routes
-
-
 const cars = require('./server/routes/api/cars')
 app.use('/api/cars', cars)
-
-
-
 
 
 //Start server

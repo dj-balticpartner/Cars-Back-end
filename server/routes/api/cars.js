@@ -4,13 +4,58 @@ const mongodb = require('mongodb')
 const router = express.Router();
 
 //routes
-router.get('/', function (req, res) {
+//Get all cars
+router.get('/', async function (req, res) {
+    const cars = await loadCarsConnection();
+    res.send(await cars.find({}).toArray());
+});
+
+//Get a car by ID
+router.get('/:carId', function (req, res) {
     res.json({
-        message: "Cars Express veikia!"
+        message: `return details on ${req.params.carId} car`
     });
 });
 
-//connect to DB
+//Create new car
+router.post('/', async function (req, res) {
+    const cars = await loadCarsConnection();
+    //TODO: CONSIDER ADDING VALIDATION, Before you save!!!
+    let newCar = {
+        brand: req.body.brand,
+        model: req.body.model,
+        price: req.body.price,
+        engine: req.body.engine,
+        createdAt: new Date() // consider creating a UTC date
+    }
+    
+    await cars.insertOne(newCar, function(err, result){
+        if(err){
+            res.status(200).json({
+                status: "error",
+                error: err
+            });
+        }else{
+            res.status(201).json({
+                status: "ok",
+                message: `Car ${newCar.brand} ${newCar.model} was creeated!`
+            });
+        }        
+    });
+});
 
+//Delete car
+
+//Update car
+
+//connect to DB
+async function loadCarsConnection(){
+    const client = await mongodb.MongoClient.connect(
+        'mongodb://sa:aabbcc1234@ds143293.mlab.com:43293/vue_cars',{
+            useNewUrlParser: true
+        }
+    );
+    return client.db('vue_cars').collection('cars');
+}
 //Export Cars
 module.exports = router;
