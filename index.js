@@ -13,11 +13,11 @@ app.use(cors());
 //Routes
 
 
-app.get('/', function (req, res) {
-    res.json({
-        message: "Express vaikia!"
-    });
-});
+const cars = require('./server/routes/api/cars')
+app.use('/api/cars', cars)
+
+
+
 
 
 //Start server
