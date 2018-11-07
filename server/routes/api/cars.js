@@ -13,10 +13,11 @@ router.get('/', async function (req, res) {
 });
 
 //Get a car by ID
-router.get('/:carId', function (req, res) {
-    res.json({
-        message: `return details on ${req.params.carId} car`
-    });
+router.get('/:carId', async function (req, res) {
+    const cars = await loadCarsConnection();
+    res.send(await cars.findOne({
+        _id: mongodb.ObjectID(req.params.carId)
+    }));
 });
 
 //Create new car
