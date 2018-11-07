@@ -81,9 +81,9 @@ router.patch('/:carId', async function (req, res) {
         updatedAt: new Date() // consider creating a UTC date
     }
     
-    await cars.updateOne({
+    await cars.findOneAndUpdate({
         _id: mongodb.ObjectID(req.params.carId)
-    },updatedData , function(err, result){
+    },{$set: updatedData} , function(err, result){
         if(err){
             res.status(200).json({
                 status: "error",
@@ -92,7 +92,7 @@ router.patch('/:carId', async function (req, res) {
         }else{
             res.status(201).json({
                 status: "ok",
-                message: `Car ${newCar.brand} ${newCar.model} was creeated!`
+                message: `Car ${updatedData.brand} ${updatedData.model} was Updated!`
             });
         }        
     });
