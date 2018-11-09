@@ -14,6 +14,8 @@ app.use(cors());
 //Routes
 const cars = require('./server/routes/api/cars')
 app.use('/api/cars', cars)
+const cars_filter = require('./server/routes/api/cars_filter')
+app.use('/api/cars/filter', cars_filter)
 
 
 //Start server

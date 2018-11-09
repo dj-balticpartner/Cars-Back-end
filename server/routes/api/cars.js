@@ -48,7 +48,7 @@ router.post('/', async function (req, res) {
 });
 
 //Delete car
-//Get a car by ID
+//Delete a car by ID
 router.delete('/:carId', async function (req, res) {
     const cars = await loadCarsConnection();
     
@@ -96,6 +96,12 @@ router.patch('/:carId', async function (req, res) {
             });
         }        
     });
+});
+
+//Get all Model by Brand
+router.get('/', async function (req, res) {
+    const cars = await loadCarsConnection();
+    res.send(await cars.find({}).toArray());
 });
 
 //connect to DB
